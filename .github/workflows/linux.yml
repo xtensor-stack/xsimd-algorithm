@@ -60,9 +60,9 @@ jobs:
     #   uses: mamba-org/setup-micromamba@v1
     #   with:
     #     environment-file: environment.yml
-    - name: Setup SDE
-      if: startswith(matrix.sys.flags, 'avx512')
-      run: sh install_sde.sh
+    # - name: Setup SDE
+    #   if: startswith(matrix.sys.flags, 'avx512')
+    #   run: sh install_sde.sh
     - name: Configure build
       env:
         CC: ${{ env.CC }}
