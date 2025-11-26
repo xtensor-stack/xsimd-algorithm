@@ -16,6 +16,7 @@
 #include "doctest/doctest.h"
 
 #include <numeric>
+#include <vector>
 
 #if XSIMD_WITH_NEON && !XSIMD_WITH_NEON64
 #define ALGORITHMS_TYPES float, std::complex<float>
