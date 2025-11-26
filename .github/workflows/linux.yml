@@ -56,10 +56,13 @@ jobs:
         echo "CXX=$CXX" >> $GITHUB_ENV
     - name: Checkout xsimd-algorithm
       uses: actions/checkout@v3
-    # - name: Install mamba
-    #   uses: mamba-org/setup-micromamba@v1
-    #   with:
-    #     environment-file: environment.yml
+    - name: Set conda environment
+      uses: mamba-org/setup-micromamba@main
+      with:
+        environment-name: myenv
+        environment-file: environment-dev.yml
+        init-shell: bash
+        cache-downloads: true
     # - name: Setup SDE
     #   if: startswith(matrix.sys.flags, 'avx512')
     #   run: sh install_sde.sh

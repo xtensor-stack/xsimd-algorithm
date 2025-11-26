@@ -1,0 +1,8 @@
+name: xsimd-algorithm
+channels:
+- conda-forge
+dependencies:
+- cmake
+- xsimd=13.2.0
+- doctest
+- ninja
