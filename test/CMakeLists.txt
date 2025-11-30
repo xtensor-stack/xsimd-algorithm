@@ -47,7 +47,9 @@ endif()
 
 set(XSIMD_ALGORITHM_TESTS
     main.cpp
-    test_algorithms.cpp
+    test_iterator.cpp
+    test_reduce.cpp
+    test_transform.cpp
 )
 
 add_executable(test_xsimd_algorithm ${XSIMD_ALGORITHM_TESTS})# ${XSIMD_ALGORITHM_HEADERS})
