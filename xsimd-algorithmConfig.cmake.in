@@ -1,0 +1,8 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+find_dependency(xsimd @xsimd_REQUIRED_VERSION@)
+
+if(NOT TARGET xsimd-algorithm)
+  include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
+endif()
