@@ -23,7 +23,7 @@ endif()
 # =====
 
 set(XSIMDALGO_HEADERS
-    ${XSIMDALGO_INCLUDE_DIR}/xsimd_algo/algorithms.hpp
+    ${XSIMDALGO_INCLUDE_DIR}/xsimd_algorithm/algorithms.hpp
 )
 
 add_library(xsimd-algorithm INTERFACE)
@@ -56,7 +56,7 @@ install(TARGETS xsimd-algorithm
 export(EXPORT ${PROJECT_NAME}-targets
        FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake")
 
-install(DIRECTORY ${XSIMDALGO_INCLUDE_DIR}/xsimd_algo
+install(DIRECTORY ${XSIMDALGO_INCLUDE_DIR}/xsimd_algorithm
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 set(XSIMDALGO_CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}" CACHE
