@@ -37,10 +37,15 @@ target_compile_features(xsimd-algorithm INTERFACE cxx_std_20)
 target_link_libraries(xsimd-algorithm INTERFACE xsimd)
 
 OPTION(BUILD_TESTS "xsimd-algorithm test suite" OFF)
+OPTION(BUILD_BENCHMARKS "xsimd-algorithm benchmarks" OFF)
 
 if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
+endif()
+
+if(BUILD_BENCHMARKS)
+    add_subdirectory(benchmark)
 endif()
 
 # Installation

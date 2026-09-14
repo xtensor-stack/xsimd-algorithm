@@ -45,6 +45,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND MSVC AND WIN32) # We are using clang-
     set(CMAKE_EXE_LINKER_FLAGS /MANIFEST:NO)
 endif()
 
+if(BUILD_TESTS OR CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+
 set(XSIMD_ALGORITHM_TESTS
     main.cpp
     test_arange.cpp
@@ -96,3 +98,5 @@ endif()
 if (XSIMD_ENABLE_WERROR)
     target_compile_options(test_xsimd_algorithm PRIVATE -Werror -Wall -DXSIMD_SKIP_ON_WERROR)
 endif()
+
+endif() # BUILD_TESTS OR standalone

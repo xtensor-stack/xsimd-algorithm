@@ -6,3 +6,4 @@ dependencies:
 - xsimd=14.3.0
 - doctest
 - ninja
+- benchmark

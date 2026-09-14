@@ -1,3 +1,5 @@
+set -eu
+
 #git clone https://github.com/marehr/intel-sde-downloader
 #cd intel-sde-downloader
 #pip install -r requirements.txt
