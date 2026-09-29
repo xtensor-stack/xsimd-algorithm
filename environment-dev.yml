@@ -5,4 +5,5 @@ dependencies:
 - cmake
 - xsimd=14.3.0
 - doctest
+- benchmark
 - ninja

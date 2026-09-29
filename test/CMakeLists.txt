@@ -48,13 +48,15 @@ endif()
 set(XSIMD_ALGORITHM_TESTS
     main.cpp
     test_arange.cpp
+    test_map.cpp
     test_iterator.cpp
+    test_math.cpp
     test_reduce.cpp
     test_transform.cpp
 )
 
-add_executable(test_xsimd_algorithm ${XSIMD_ALGORITHM_TESTS})# ${XSIMD_ALGORITHM_HEADERS})
-target_link_libraries(test_xsimd_algorithm PRIVATE xsimd-algorithm)
+add_executable(test_xsimd_algorithm ${XSIMD_ALGORITHM_TESTS})
+target_link_libraries(test_xsimd_algorithm PRIVATE xsimd-algorithm xsimd::test-utils)
 
 option(DOWNLOAD_DOCTEST OFF)
 find_package(doctest QUIET)

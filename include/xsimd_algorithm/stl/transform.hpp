@@ -16,7 +16,7 @@
 #include <iterator>
 #include <type_traits>
 
-#include "xsimd/xsimd.hpp"
+#include <xsimd/xsimd.hpp>
 
 namespace xsimd
 {
