@@ -1,0 +1,59 @@
+name: Benchmark
+
+on:
+  push:
+    branches: [main]
+  pull_request: {} # Allow CodSpeed to trigger backtest performance analysis
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.job }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash -e -l {0}
+
+jobs:
+  benchmarks:
+    name: Linux - ${{ matrix.sys.name }} - ${{ matrix.sys.mode }}
+    runs-on: namespace-profile-benchmark;container.privileged=true;container.host-pid-namespace=true
+    strategy:
+      matrix:
+        sys:
+          - { name: "sse4.2", flags: "-march=x86-64-v2", mode: "walltime" }
+          - { name: "avx2",   flags: "-march=x86-64-v3", mode: "walltime" }
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Set conda environment
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: myenv
+          create-args: >-
+            c-compiler
+            cxx-compiler
+            cmake
+            ninja
+            xsimd=14.3.0
+          init-shell: bash
+          cache-downloads: true
+      - name: Build benchmarks
+        run: |
+          # Codspeed deps need C11 (not 23)
+          cmake -G Ninja -B build/ \
+            -D CMAKE_BUILD_TYPE="RelWithDebInfo" \
+            -D CMAKE_CXX_FLAGS="${{ matrix.sys.flags }}" \
+            -D BUILD_BENCHMARK=ON \
+            -D CMAKE_C_STANDARD=11 \
+            -D CODSPEED_MODE="${{ matrix.sys.mode }}"
+          cmake --build build --target benchmark_xsimd_algorithm --parallel 8
+      - name: Run benchmarks
+        uses: CodSpeedHQ/action@v5
+        with:
+          mode: ${{ matrix.sys.mode }}
+          run: ./build/benchmark/benchmark_xsimd_algorithm
