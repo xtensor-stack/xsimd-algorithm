@@ -35,8 +35,6 @@ jobs:
         with:
           environment-name: myenv
           create-args: >-
-            c-compiler
-            cxx-compiler
             cmake
             ninja
             xsimd=14.3.0
