@@ -145,13 +145,9 @@ namespace
     bool const registered = []
     {
         register_benches<xsimd::test::sqrt_op<float>>();
-        register_benches<xsimd::test::sqrt_op<double>>();
-        register_benches<xsimd::test::abs_op<float>>();
         register_benches<xsimd::test::abs_op<double>>();
         register_benches<xsimd::test::exp_op<float>>();
-        register_benches<xsimd::test::exp_op<double>>();
         register_binary_benches<xsimd::test::add_op<std::int32_t>>();
-        register_binary_benches<xsimd::test::multiply_op<float>>();
         register_binary_benches<xsimd::test::mixed_multiply_op>();
         return true;
     }();

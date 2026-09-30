@@ -54,4 +54,4 @@ jobs:
         uses: CodSpeedHQ/action@v5
         with:
           mode: ${{ matrix.sys.mode }}
-          run: ./build/benchmark/benchmark_xsimd_algorithm
+          run: ./build/benchmark/benchmark_xsimd_algorithm --benchmark_repetitions=3
