@@ -29,12 +29,25 @@ else()
     find_package(benchmark REQUIRED)
 endif()
 
-set(XSIMD_ALGORITHM_BENCHMARKS
+# Regular benchmark of algorithm implemented here
+add_executable(
+    benchmark_xsimd_algorithm
     main.cpp
-    bench_math.cpp
     bench_map.cpp
 )
+target_link_libraries(
+    benchmark_xsimd_algorithm
+    PRIVATE xsimd-algorithm xsimd::test-utils benchmark::benchmark
+)
 
-add_executable(benchmark_xsimd_algorithm ${XSIMD_ALGORITHM_BENCHMARKS})
-target_link_libraries(benchmark_xsimd_algorithm
-    PRIVATE xsimd-algorithm xsimd::test-utils benchmark::benchmark)
+# Benchmark actually targeting xsimd functionalities (hot loop in L1 cache,
+# no header and trailers). Should probably be moved to xsimd itself.
+add_executable(
+    benchmark_xsimd
+    main.cpp
+    bench_math.cpp
+)
+target_link_libraries(
+    benchmark_xsimd
+    PRIVATE xsimd-algorithm xsimd::test-utils benchmark::benchmark
+)
