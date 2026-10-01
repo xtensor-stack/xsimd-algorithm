@@ -28,27 +28,10 @@ jobs:
           - { compiler: 'clang', version: '18', flags: 'avx512' }
     steps:
     - name: Setup compiler
-      if: ${{ matrix.sys.compiler == 'gcc' }}
-      run: |
-        GCC_VERSION=${{ matrix.sys.version }}
-        sudo apt-get update
-        sudo apt-get --no-install-suggests --no-install-recommends install g++-$GCC_VERSION
-        CC=gcc-$GCC_VERSION
-        echo "CC=$CC" >> $GITHUB_ENV
-        CXX=g++-$GCC_VERSION
-        echo "CXX=$CXX" >> $GITHUB_ENV
-    - name: Setup compiler
-      if: ${{ matrix.sys.compiler == 'clang' }}
-      run: |
-        LLVM_VERSION=${{ matrix.sys.version }}
-        sudo apt-get update || exit 1
-        sudo apt-get --no-install-suggests --no-install-recommends install clang-$LLVM_VERSION || exit 1
-        sudo apt-get --no-install-suggests --no-install-recommends install g++ g++-multilib || exit 1
-        sudo ln -s /usr/include/asm-generic /usr/include/asm
-        CC=clang-$LLVM_VERSION
-        echo "CC=$CC" >> $GITHUB_ENV
-        CXX=clang++-$LLVM_VERSION
-        echo "CXX=$CXX" >> $GITHUB_ENV
+      uses: xtensor-stack/xsimd/.github/actions/setup-compiler-apt@master
+      with:
+        compiler: ${{ matrix.sys.compiler }}
+        version: ${{ matrix.sys.version }}
     - name: Checkout xsimd-algorithm
       uses: actions/checkout@v7
     - name: Set conda environment
