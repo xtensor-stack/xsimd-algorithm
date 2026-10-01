@@ -42,46 +42,46 @@ namespace
         constexpr auto noopts = map_options { .unroll_factor = 1, .pure = false };
 
         register_bench<Op, arch>("aligned/scalar", bench_scalar<Op, aligned_alloc>);
-        register_bench<Op, arch>("aligned/simd/transform", bench_transform<Op, aligned_alloc, arch>);
+        register_bench<Op, arch>("aligned/simd-transform", bench_transform<Op, aligned_alloc, arch>);
         register_bench<Op, arch>(
-            "aligned/simd/map",
+            "aligned/simd-map",
             bench_map_unary<Op, aligned_alloc, arch, noalign, noopts>);
         register_bench<Op, arch>(
-            "aligned/simd/map:pure",
+            "aligned/simd-map:pure",
             bench_map_unary<
                 Op, aligned_alloc, arch,
                 noalign, map_options { .unroll_factor = 1, .pure = true }>);
         register_bench<Op, arch>(
-            "aligned/simd/map:unroll4",
+            "aligned/simd-map:unroll4",
             bench_map_unary<
                 Op, aligned_alloc, arch, noalign, map_options { .unroll_factor = 4 }>);
         register_bench<Op, arch>(
-            "aligned/simd/map:noheader",
+            "aligned/simd-map:noheader",
             bench_map_unary<
                 Op, aligned_alloc, arch,
                 alignment_options { .start_aligned = true }, noopts>);
         register_bench<Op, arch>(
-            "aligned/simd/map:noheader+pure+unroll4",
+            "aligned/simd-map:noheader+pure+unroll4",
             bench_map_unary<
                 Op, aligned_alloc, arch,
                 alignment_options { .start_aligned = true }, map_options { .unroll_factor = 4, .pure = true }>);
 
         register_bench<Op, arch>("unaligned/scalar", bench_scalar<Op, unaligned_alloc>);
-        register_bench<Op, arch>("unaligned/simd/transform", bench_transform<Op, unaligned_alloc, arch>);
+        register_bench<Op, arch>("unaligned/simd-transform", bench_transform<Op, unaligned_alloc, arch>);
         register_bench<Op, arch>(
-            "unaligned/simd/map",
+            "unaligned/simd-map",
             bench_map_unary<Op, unaligned_alloc, arch, noalign, noopts>);
         register_bench<Op, arch>(
-            "unaligned/simd/map:pure",
+            "unaligned/simd-map:pure",
             bench_map_unary<
                 Op, unaligned_alloc, arch,
                 noalign, map_options { .unroll_factor = 1, .pure = true }>);
         register_bench<Op, arch>(
-            "unaligned/simd/map:unroll4",
+            "unaligned/simd-map:unroll4",
             bench_map_unary<
                 Op, unaligned_alloc, arch, noalign, map_options { .unroll_factor = 4 }>);
         register_bench<Op, arch>(
-            "unaligned/simd/map:pure+unroll4",
+            "unaligned/simd-map:pure+unroll4",
             bench_map_unary<
                 Op, unaligned_alloc, arch,
                 noalign, map_options { .unroll_factor = 4, .pure = true }>);
@@ -100,43 +100,43 @@ namespace
 
         register_binary_bench<Op, arch>("aligned/scalar", bench_binary_scalar<Op, aligned_alloc>);
         register_binary_bench<Op, arch>(
-            "aligned/simd/map",
+            "aligned/simd-map",
             bench_map_binary<Op, aligned_alloc, arch, noalign, noopts>);
         register_binary_bench<Op, arch>(
-            "aligned/simd/map:pure",
+            "aligned/simd-map:pure",
             bench_map_binary<
                 Op, aligned_alloc, arch,
                 noalign, map_options { .unroll_factor = 1, .pure = true }>);
         register_binary_bench<Op, arch>(
-            "aligned/simd/map:unroll4",
+            "aligned/simd-map:unroll4",
             bench_map_binary<
                 Op, aligned_alloc, arch, noalign, map_options { .unroll_factor = 4 }>);
         register_binary_bench<Op, arch>(
-            "aligned/simd/map:noheader",
+            "aligned/simd-map:noheader",
             bench_map_binary<
                 Op, aligned_alloc, arch,
                 alignment_options { .start_aligned = true }, noopts>);
         register_binary_bench<Op, arch>(
-            "aligned/simd/map:noheader+pure+unroll4",
+            "aligned/simd-map:noheader+pure+unroll4",
             bench_map_binary<
                 Op, aligned_alloc, arch,
                 alignment_options { .start_aligned = true }, map_options { .unroll_factor = 4, .pure = true }>);
 
         register_binary_bench<Op, arch>("unaligned/scalar", bench_binary_scalar<Op, unaligned_alloc>);
         register_binary_bench<Op, arch>(
-            "unaligned/simd/map",
+            "unaligned/simd-map",
             bench_map_binary<Op, unaligned_alloc, arch, noalign, noopts>);
         register_binary_bench<Op, arch>(
-            "unaligned/simd/map:pure",
+            "unaligned/simd-map:pure",
             bench_map_binary<
                 Op, unaligned_alloc, arch,
                 noalign, map_options { .unroll_factor = 1, .pure = true }>);
         register_binary_bench<Op, arch>(
-            "unaligned/simd/map:unroll4",
+            "unaligned/simd-map:unroll4",
             bench_map_binary<
                 Op, unaligned_alloc, arch, noalign, map_options { .unroll_factor = 4 }>);
         register_binary_bench<Op, arch>(
-            "unaligned/simd/map:pure+unroll4",
+            "unaligned/simd-map:pure+unroll4",
             bench_map_binary<
                 Op, unaligned_alloc, arch,
                 noalign, map_options { .unroll_factor = 4, .pure = true }>);
