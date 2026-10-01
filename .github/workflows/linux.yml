@@ -28,7 +28,7 @@ jobs:
           - { compiler: 'clang', version: '18', flags: 'avx512' }
     steps:
     - name: Setup compiler
-      uses: xtensor-stack/xsimd/.github/actions/setup-compiler-apt@main
+      uses: xtensor-stack/xsimd/.github/actions/setup-compiler-apt@master
       with:
         compiler: ${{ matrix.sys.compiler }}
         version: ${{ matrix.sys.version }}
