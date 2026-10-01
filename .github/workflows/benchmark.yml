@@ -3,12 +3,11 @@ name: Benchmark
 on:
   push:
     branches: [main]
-  pull_request: {} # Allow CodSpeed to trigger backtest performance analysis
+  pull_request: {}
   workflow_dispatch: {}
 
 permissions:
   contents: read
-  id-token: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.job }}-${{ github.ref }}
@@ -20,13 +19,13 @@ defaults:
 
 jobs:
   benchmarks:
-    name: Linux - ${{ matrix.sys.name }} - ${{ matrix.sys.mode }}
+    name: Linux - ${{ matrix.sys.name }}
     runs-on: namespace-profile-benchmark;container.privileged=true;container.host-pid-namespace=true
     strategy:
       matrix:
         sys:
-          - { name: "sse4.2", flags: "-march=x86-64-v2", mode: "walltime" }
-          - { name: "avx2",   flags: "-march=x86-64-v3", mode: "walltime" }
+          - { name: "sse4.2", flags: "-march=x86-64-v2" }
+          - { name: "avx2",   flags: "-march=x86-64-v3" }
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -37,21 +36,25 @@ jobs:
           create-args: >-
             cmake
             ninja
+            benchmark
             xsimd=14.3.0
           init-shell: bash
           cache-downloads: true
       - name: Build benchmarks
         run: |
-          # Codspeed deps need C11 (not 23)
           cmake -G Ninja -B build/ \
             -D CMAKE_BUILD_TYPE="RelWithDebInfo" \
             -D CMAKE_CXX_FLAGS="${{ matrix.sys.flags }}" \
-            -D BUILD_BENCHMARK=ON \
-            -D CMAKE_C_STANDARD=11 \
-            -D CODSPEED_MODE="${{ matrix.sys.mode }}"
+            -D BUILD_BENCHMARK=ON
           cmake --build build --target benchmark_xsimd_algorithm --parallel 8
       - name: Run benchmarks
-        uses: CodSpeedHQ/action@v5
+        run: |
+          ./build/benchmark/benchmark_xsimd_algorithm \
+            --benchmark_repetitions=3 \
+            --benchmark_out=benchmark-${{ matrix.sys.name }}.json \
+            --benchmark_out_format=json
+      - name: Upload results
+        uses: actions/upload-artifact@v4
         with:
-          mode: ${{ matrix.sys.mode }}
-          run: ./build/benchmark/benchmark_xsimd_algorithm --benchmark_repetitions=3
+          name: benchmark-${{ github.event.pull_request.head.sha || github.sha }}-${{ matrix.sys.name }}
+          path: benchmark-${{ matrix.sys.name }}.json

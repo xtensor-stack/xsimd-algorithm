@@ -14,20 +14,7 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     find_package(xsimd-algorithm REQUIRED CONFIG)
 endif ()
 
-# No simple packaging of Codspeed
-if(DEFINED CODSPEED_MODE)
-    include(FetchContent)
-    FetchContent_Declare(
-        google_benchmark
-        GIT_REPOSITORY https://github.com/CodSpeedHQ/codspeed-cpp
-        GIT_TAG v2.4.0
-        SOURCE_SUBDIR google_benchmark
-    )
-    set(BENCHMARK_DOWNLOAD_DEPENDENCIES ON)
-    FetchContent_MakeAvailable(google_benchmark)
-else()
-    find_package(benchmark REQUIRED)
-endif()
+find_package(benchmark REQUIRED)
 
 # Regular benchmark of algorithm implemented here
 add_executable(
