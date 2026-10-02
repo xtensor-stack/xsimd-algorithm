@@ -56,5 +56,7 @@ jobs:
       - name: Upload results
         run: |
           url=$(curl --fail --silent --show-error -F "file=@benchmark.json" https://x0.at/)
-          echo "::notice title=Benchmark ${{ matrix.sys.name }}::${url}"
-          echo "Benchmark ${{ matrix.sys.name }}: ${url}" >> "${GITHUB_STEP_SUMMARY}"
+          sha="${{ github.event.pull_request.head.sha || github.sha }}"
+          link="https://notebook.link/github/${{ github.repository }}/commit/${sha::7}/specta/?path=benchmark/analyzer/analyzer.ipynb&url=${url}"
+          echo "::notice title=Benchmark ${{ matrix.sys.name }}::${link}"
+          echo "[Benchmark ${{ matrix.sys.name }}](${link})" >> "${GITHUB_STEP_SUMMARY}"
