@@ -214,7 +214,9 @@ def relplot(
     # The plots live in a subfigure so that a suptitle added later on the
     # parent figure is laid out above the legend instead of overlapping it.
     fig = plt.figure(
-        figsize=(aspect * height * n_cols, height * n_rows), layout="constrained"
+        figsize=(aspect * height * n_cols, height * n_rows),
+        layout="constrained",
+        facecolor="none",
     )
     subfig = fig.subfigures()
     axes = subfig.subplots(
@@ -230,6 +232,7 @@ def relplot(
         enumerate(row_levels), enumerate(col_levels)
     ):
         ax = axes[row_idx, col_idx]
+        ax.set_facecolor("none")
 
         facet_df = data
         if row is not None:
