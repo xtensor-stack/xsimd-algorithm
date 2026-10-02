@@ -1,0 +1,10 @@
+{
+  "jupyter-lite-schema-version": 0,
+  "jupyterer-config-data": {
+    "appName": "xsimd-algorithm benchmarks",
+    "spectaConfig": {
+      "topBar": {
+        "title": "xsimd-algorithm benchmarks"
+      }
+  }
+}

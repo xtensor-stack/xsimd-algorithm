@@ -1,0 +1,62 @@
+name: Benchmark
+
+on:
+  push:
+    branches: [main]
+  pull_request: {}
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.job }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash -e -l {0}
+
+jobs:
+  benchmarks:
+    name: Linux - ${{ matrix.sys.name }}
+    runs-on: namespace-profile-benchmark;container.privileged=true;container.host-pid-namespace=true
+    strategy:
+      matrix:
+        sys:
+          - { name: "sse4.2", flags: "-march=x86-64-v2" }
+          - { name: "avx2",   flags: "-march=x86-64-v3" }
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Set conda environment
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: myenv
+          create-args: >-
+            cmake
+            ninja
+            benchmark
+            xsimd=14.3.0
+          init-shell: bash
+          cache-downloads: true
+      - name: Build benchmarks
+        run: |
+          cmake -G Ninja -B build/ \
+            -D CMAKE_BUILD_TYPE="RelWithDebInfo" \
+            -D CMAKE_CXX_FLAGS="${{ matrix.sys.flags }}" \
+            -D BUILD_BENCHMARK=ON
+          cmake --build build --target benchmark_xsimd_algorithm --parallel 8
+      - name: Run benchmarks
+        run: |
+          ./build/benchmark/benchmark_xsimd_algorithm \
+            --benchmark_repetitions=3 \
+            --benchmark_out=benchmark.json \
+            --benchmark_out_format=json
+      - name: Upload results
+        run: |
+          url=$(curl --fail --silent --show-error -F "file=@benchmark.json" https://x0.at/)
+          sha="${{ github.event.pull_request.head.sha || github.sha }}"
+          link="https://notebook.link/github/${{ github.repository }}/commit/${sha::7}/specta/?path=benchmark/analyzer/analyzer.ipynb&url=${url}"
+          echo "::notice title=Benchmark ${{ matrix.sys.name }}::${link}"
+          echo "[Benchmark ${{ matrix.sys.name }}](${link})" >> "${GITHUB_STEP_SUMMARY}"

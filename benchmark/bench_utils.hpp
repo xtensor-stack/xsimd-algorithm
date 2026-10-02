@@ -22,14 +22,9 @@ namespace xsimd::bench
     {
         constexpr auto batch_size = static_cast<std::int64_t>(xsimd::batch<T>::size);
 
-        auto sizes = std::vector<std::int64_t> {};
-        for (std::int64_t size : { 64, 1024, 65536, 1 << 21 })
-        {
-            auto const whole = size - (size % batch_size);
-            sizes.push_back(whole);
-            sizes.push_back(whole + batch_size / 2 + 1);
-        }
-        return sizes;
+        return std::vector<std::int64_t> {
+            64, 67, 1024, 1027, 65536, 2097152
+        };
     }
 
     template <typename T>
