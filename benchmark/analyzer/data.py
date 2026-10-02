@@ -15,12 +15,12 @@ def download_file(url: str) -> dict[str, str | int | float]:
     return response.content
 
 
-def parse_response(raw: bytes) -> pd.DataFrame:
+def parse_response(raw: bytes) -> pl.DataFrame:
     data = json.loads(raw)["body"]
     return pl.DataFrame(json.loads(data)["benchmarks"])
 
 
-def get_data_df(url: str) -> pd.DataFrame:
+def get_data_df(url: str) -> pl.DataFrame:
     url = build_proxy_request(url)
     data = download_file(url)
     return parse_response(data)
@@ -77,7 +77,7 @@ def create_df_categories(df: pl.DataFrame, pattern: str) -> pl.DataFrame:
     return df.with_columns(cast_int_or_categorical(df[c]) for c in parts)
 
 
-def get_preprocessed_df(url: str) -> pd.DataFrame:
+def get_preprocessed_df(url: str) -> pl.DataFrame:
     df = get_data_df(url)
     df = preprocess_df(df)
     return df
