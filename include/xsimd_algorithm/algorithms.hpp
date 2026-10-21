@@ -12,6 +12,10 @@
 #ifndef XSIMD_ALGORITHMS_HPP
 #define XSIMD_ALGORITHMS_HPP
 
+#include "xsimd_algorithm/stl/all_of.hpp"
+#include "xsimd_algorithm/stl/any_of.hpp"
+#include "xsimd_algorithm/stl/arange.hpp"
+//#include "xsimd_algorithm/stl/none_of.hpp"
 #include "xsimd_algorithm/stl/reduce.hpp"
 #include "xsimd_algorithm/stl/transform.hpp"
 
