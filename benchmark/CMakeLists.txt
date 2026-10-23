@@ -21,6 +21,7 @@ set(XSIMD_ALGORITHM_BENCHMARKS
     bench_math.cpp
     bench_map.cpp
     bench_of.cpp
+    bench_find.cpp
 )
 
 add_executable(benchmark_xsimd_algorithm ${XSIMD_ALGORITHM_BENCHMARKS})

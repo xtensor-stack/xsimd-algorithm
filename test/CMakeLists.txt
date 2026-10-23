@@ -51,6 +51,9 @@ set(XSIMD_ALGORITHM_TESTS
     test_any_of.cpp
     test_none_of.cpp
     test_arange.cpp
+    test_find.cpp
+    test_find_if.cpp
+    test_find_if_not.cpp
     test_map.cpp
     test_iterator.cpp
     test_math.cpp
