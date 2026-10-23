@@ -1,0 +1,12 @@
+name: default-environment
+channels:
+  - emscripten-forge-4x
+  - conda-forge
+dependencies:
+  - xeus-python
+  - requests
+  - polars
+  - matplotlib
+  - numpy
+  - ipywidgets
+  - ipympl

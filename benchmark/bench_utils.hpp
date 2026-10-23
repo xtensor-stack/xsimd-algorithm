@@ -17,19 +17,25 @@
 
 namespace xsimd::bench
 {
+    /// Number of elements per buffer.
+    ///
+    /// Sizes are chosen in bytes, well below or above cache capacities, since a working set
+    /// close to a capacity flips between hitting and missing depending on its physical placement.
     template <typename T>
     std::vector<std::int64_t> bench_sizes()
     {
-        constexpr auto batch_size = static_cast<std::int64_t>(xsimd::batch<T>::size);
+        constexpr std::int64_t kib = 1024;
+        constexpr std::int64_t mib = 1024 * kib;
+        constexpr auto elems = [](std::int64_t bytes) { return bytes / static_cast<std::int64_t>(sizeof(T)); };
 
-        auto sizes = std::vector<std::int64_t> {};
-        for (std::int64_t size : { 64, 1024, 65536, 1 << 21 })
-        {
-            auto const whole = size - (size % batch_size);
-            sizes.push_back(whole);
-            sizes.push_back(whole + batch_size / 2 + 1);
-        }
-        return sizes;
+        return std::vector<std::int64_t> {
+            64,
+            67,
+            elems(4 * kib),
+            elems(64 * kib),
+            elems(2 * mib),
+            elems(32 * mib),
+        };
     }
 
     template <typename T>

@@ -14,6 +14,7 @@
 
 #include <benchmark/benchmark.h>
 
+#include "bench_arena.hpp"
 #include "bench_utils.hpp"
 #include "xsimd_algorithm/map.hpp"
 #include "xsimd_test_utils/utils.hpp"
@@ -31,6 +32,7 @@ namespace xsimd::bench
         using output_t = typename Op::output_t;
 
         auto const size = static_cast<std::size_t>(state.range(0));
+        arena::instance().reset();
         auto [lhs, rhs, output] = Op::template make_input_output<Alloc>(size);
 
         for (auto _ : state)

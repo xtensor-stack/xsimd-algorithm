@@ -10,6 +10,7 @@
 
 #include <benchmark/benchmark.h>
 
+#include "bench_arena.hpp"
 #include "map_binary_utils.hpp"
 #include "map_unary_utils.hpp"
 #include "xsimd_test_utils/map_binary_data.hpp"
@@ -41,7 +42,7 @@ namespace
     {
         using input_t = typename Op::input_t;
         using arch = xsimd::default_arch;
-        using aligned_alloc = typename xsimd::test::aligned_vector<input_t, arch>::allocator_type;
+        using aligned_alloc = xsimd::bench::arena_allocator<input_t>;
 
         register_bench<Op, arch>(
             "hot/scalar", bench_scalar<Op, aligned_alloc>, /* sizes = */ { 1024 });
@@ -56,7 +57,7 @@ namespace
     {
         using lhs_t = typename Op::lhs_t;
         using arch = xsimd::default_arch;
-        using aligned_alloc = typename xsimd::test::aligned_vector<lhs_t, arch>::allocator_type;
+        using aligned_alloc = xsimd::bench::arena_allocator<lhs_t>;
 
         register_binary_bench<Op, arch>(
             "hot/scalar", bench_binary_scalar<Op, aligned_alloc>, /* sizes = */ { 1024 });
