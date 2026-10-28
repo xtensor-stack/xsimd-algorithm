@@ -56,6 +56,8 @@ set(XSIMD_ALGORITHM_TESTS
     test_math.cpp
     test_reduce.cpp
     test_transform.cpp
+    test_max_element.cpp
+    test_min_element.cpp
 )
 
 add_executable(test_xsimd_algorithm ${XSIMD_ALGORITHM_TESTS})
